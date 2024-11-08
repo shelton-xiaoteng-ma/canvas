@@ -1,7 +1,8 @@
 "use client";
 
 import { Canvas, Rect, Shadow } from "fabric";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
+import { useAutoResize } from "./use-auto-resize";
 
 interface useEditorProps {
   initialCanvas: Canvas;
@@ -9,6 +10,14 @@ interface useEditorProps {
 }
 
 export const useEditor = () => {
+  const [canvas, setCanvas] = useState<Canvas | null>(null);
+  const [container, setContainer] = useState<HTMLDivElement | null>(null);
+
+  useAutoResize({
+    canvas,
+    container,
+  });
+
   const init = useCallback(
     ({ initialCanvas, initialContainer }: useEditorProps) => {
       initialCanvas.set({
@@ -22,9 +31,9 @@ export const useEditor = () => {
       });
 
       const initialWorkspace = new Rect({
-        width: 900,
-        height: 1200,
-        name: "flip",
+        width: 600,
+        height: 600,
+        name: "clip",
         fill: "white",
         selectable: false,
         hasControls: false,
@@ -39,6 +48,9 @@ export const useEditor = () => {
       initialCanvas.add(initialWorkspace);
       initialCanvas.centerObject(initialWorkspace);
       initialCanvas.clipPath = initialWorkspace;
+
+      setCanvas(initialCanvas);
+      setContainer(initialContainer);
     },
     []
   );
