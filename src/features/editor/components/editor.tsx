@@ -2,7 +2,7 @@
 
 import { useEditor } from "@/features/editor/hooks/use-editor";
 import { Canvas } from "fabric";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Navbar } from "./navbar";
 import { Sidebar } from "./sidebar";
 import { Toolbar } from "./toolbar";
@@ -13,7 +13,7 @@ export const Editor = () => {
 
   const { init } = useEditor();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const canvas = new Canvas(canvasRef.current!, {
       controlsAboveOverlay: true,
       preserveObjectStacking: true,
@@ -22,6 +22,9 @@ export const Editor = () => {
       initialCanvas: canvas,
       initialContainer: containerRef.current,
     });
+    return () => {
+      canvas.dispose();
+    };
   }, [init]);
   return (
     <div className="h-full flex flex-col">
