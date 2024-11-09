@@ -1,6 +1,6 @@
 "use client";
 
-import { Canvas, FabricObject, iMatrix, Point, TMat2D, util } from "fabric";
+import { Canvas, iMatrix, Point, TMat2D, util } from "fabric";
 import { useCallback, useEffect } from "react";
 
 interface useAutoResizeProps {
@@ -58,8 +58,6 @@ export const useAutoResize = ({ canvas, container }: useAutoResizeProps) => {
       canvas.height / 2 - workspaceCenter.y * viewportTransform[3];
 
     canvas.setViewportTransform(viewportTransform);
-    console.log(localWorkspace instanceof FabricObject);
-    console.log(localWorkspace);
     // localWorkspace.clone((cloned: Rect) => {
     //   canvas.clipPath = cloned;
     //   canvas.requestRenderAll();
@@ -72,7 +70,6 @@ export const useAutoResize = ({ canvas, container }: useAutoResizeProps) => {
     if (canvas && container) {
       resizeObserver = new ResizeObserver(() => {
         autoZoom();
-        console.log("resizing");
       });
       resizeObserver.observe(container);
     }
