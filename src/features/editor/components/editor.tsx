@@ -5,6 +5,7 @@ import { Canvas } from "fabric";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActiveTool } from "../types";
 import { Navbar } from "./navbar";
+import { ShapeSidebar } from "./shape-sidebar";
 import { Sidebar } from "./sidebar";
 import { Toolbar } from "./toolbar";
 
@@ -47,11 +48,16 @@ export const Editor = () => {
       canvas.dispose();
     };
   }, [init]);
+
   return (
     <div className="h-full flex flex-col">
       <Navbar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
       <div className="absolute h-[calc(100%-68px)] w-full top-[68px] flex">
         <Sidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <ShapeSidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
