@@ -1,13 +1,105 @@
 "use client";
 
-import { Canvas, Rect, Shadow } from "fabric";
-import { useCallback, useState } from "react";
+import {
+  Canvas,
+  Circle,
+  FabricObject,
+  Polygon,
+  Rect,
+  Shadow,
+  Triangle,
+} from "fabric";
+import { useCallback, useMemo, useState } from "react";
+import {
+  buildEditorProps,
+  CIRCLE_OPTIONS,
+  DIAMOND_OPTIONS,
+  Editor,
+  RECTANGLE_OPTIONS,
+  TRIANGLE_OPTIONS,
+} from "../types";
 import { useAutoResize } from "./use-auto-resize";
 
 interface useEditorProps {
   initialCanvas: Canvas;
   initialContainer: HTMLDivElement | null;
 }
+
+const buildEditor = ({ canvas }: buildEditorProps): Editor => {
+  const getWorkspace = () => {
+    return canvas
+      .getObjects()
+      .find((object) => "name" in object && object.name === "clip");
+  };
+  const center = (object: FabricObject) => {
+    const workspace = getWorkspace();
+    const center = workspace?.getCenterPoint();
+    canvas._centerObject(object, center!);
+  };
+
+  const addToCanvas = (object: FabricObject) => {
+    center(object);
+    canvas.add(object);
+    canvas.setActiveObject(object);
+  };
+
+  return {
+    addCircle: () => {
+      const object = new Circle({ ...CIRCLE_OPTIONS });
+      addToCanvas(object);
+    },
+    addSoftRectangle: () => {
+      const object = new Rect({ ...RECTANGLE_OPTIONS, rx: 50, ry: 50 });
+      addToCanvas(object);
+    },
+    addRectangle: () => {
+      const object = new Rect({ ...RECTANGLE_OPTIONS });
+      addToCanvas(object);
+    },
+    addTriangle: () => {
+      const object = new Triangle({ ...TRIANGLE_OPTIONS });
+      addToCanvas(object);
+    },
+    addInverseTriangle: () => {
+      // const object = new Triangle({ ...TRIANGLE_OPTIONS, angle: 180 });
+      const HEIGHT = TRIANGLE_OPTIONS.height;
+      const WIDTH = TRIANGLE_OPTIONS.width;
+      const object = new Polygon(
+        [
+          { x: 0, y: 0 },
+          { x: WIDTH, y: 0 },
+          { x: WIDTH / 2, y: HEIGHT },
+        ],
+        {
+          ...RECTANGLE_OPTIONS,
+        }
+      );
+      addToCanvas(object);
+    },
+    addDiamond: () => {
+      // const object = new Rect({
+      //   ...RECTANGLE_OPTIONS,
+      //   angle: 45,
+      //   rx: 50,
+      //   ry: 50,
+      // });
+      const HEIGHT = DIAMOND_OPTIONS.height;
+      const WIDTH = DIAMOND_OPTIONS.width;
+      const object = new Polygon(
+        [
+          { x: WIDTH / 2, y: 0 },
+          { x: WIDTH, y: HEIGHT / 2 },
+          { x: WIDTH / 2, y: HEIGHT },
+          { x: 0, y: HEIGHT / 2 },
+        ],
+        {
+          ...DIAMOND_OPTIONS,
+        }
+      );
+      addToCanvas(object);
+    },
+  };
+};
 
 export const useEditor = () => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);
@@ -17,6 +109,13 @@ export const useEditor = () => {
     canvas,
     container,
   });
+
+  const editor = useMemo(() => {
+    if (canvas) {
+      return buildEditor({ canvas });
+    }
+    return undefined;
+  }, [canvas]);
 
   const init = useCallback(
     ({ initialCanvas, initialContainer }: useEditorProps) => {
@@ -54,5 +153,5 @@ export const useEditor = () => {
     },
     []
   );
-  return { init };
+  return { init, editor };
 };

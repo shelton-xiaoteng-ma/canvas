@@ -33,7 +33,7 @@ export const Editor = () => {
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const { init } = useEditor();
+  const { init, editor } = useEditor();
 
   useEffect(() => {
     const canvas = new Canvas(canvasRef.current!, {
@@ -58,6 +58,7 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <ShapeSidebar
+          editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
