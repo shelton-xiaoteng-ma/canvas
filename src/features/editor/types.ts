@@ -59,6 +59,8 @@ export type buildEditorProps = {
   setStrokeColor: (value: string) => void;
   strokeWidth: number;
   setStrokeWidth: (value: number) => void;
+  strokeDashArray: number[];
+  setStrokeDashArray: (value: number[]) => void;
 };
 
 export interface Editor {
@@ -71,17 +73,21 @@ export interface Editor {
   changeFillColor: (value: string) => void;
   changeStrokeColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
+  changeStrokeDashArray: (value: number[]) => void;
   // fillColor: string;
   getActiveObjectFillColor: () => string;
   // strokeColor: string;
   getActiveObjectStrokeColor: () => string;
-  strokeWidth: number;
+  // strokeWidth: number;
+  getActiveObjectStrokeWidth: () => number;
+  getActiveObjectStrokeDashArray: () => number[];
   canvas: Canvas;
 }
 
 export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
 export const STROKE_WIDTH = 2;
+export const STROKE_DASH_ARRAY = [];
 
 export const CIRCLE_OPTIONS = {
   radius: 200,
