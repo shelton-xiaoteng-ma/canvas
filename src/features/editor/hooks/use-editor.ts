@@ -177,7 +177,11 @@ const buildEditor = ({
   };
 };
 
-export const useEditor = () => {
+export const useEditor = ({
+  clearSelectionCallback,
+}: {
+  clearSelectionCallback: () => void;
+}) => {
   const [canvas, setCanvas] = useState<Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<FabricObject[]>([]);
@@ -193,6 +197,7 @@ export const useEditor = () => {
   useCanvasEvents({
     canvas,
     setSelectedObjects,
+    clearSelectionCallback,
   });
 
   const editor = useMemo(() => {

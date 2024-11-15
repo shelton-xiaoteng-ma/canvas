@@ -3,7 +3,7 @@
 import { useEditor } from "@/features/editor/hooks/use-editor";
 import { Canvas } from "fabric";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ActiveTool } from "../types";
+import { ActiveTool, selectionDependentTools } from "../types";
 import { FillColorSidebar } from "./fill-color-sidebar";
 import { Navbar } from "./navbar";
 import { ShapeSidebar } from "./shape-sidebar";
@@ -34,7 +34,15 @@ export const Editor = () => {
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  const { init, editor } = useEditor();
+  const onClearSelection = useCallback(() => {
+    if (selectionDependentTools.includes(activeTool)) {
+      setActiveTool("select");
+    }
+  }, [activeTool]);
+
+  const { init, editor } = useEditor({
+    clearSelectionCallback: onClearSelection,
+  });
 
   useEffect(() => {
     const canvas = new Canvas(canvasRef.current!, {
