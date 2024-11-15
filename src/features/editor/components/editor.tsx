@@ -4,6 +4,7 @@ import { useEditor } from "@/features/editor/hooks/use-editor";
 import { Canvas } from "fabric";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActiveTool } from "../types";
+import { FillColorSidebar } from "./fill-color-sidebar";
 import { Navbar } from "./navbar";
 import { ShapeSidebar } from "./shape-sidebar";
 import { Sidebar } from "./sidebar";
@@ -62,15 +63,24 @@ export const Editor = () => {
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
         />
+        <FillColorSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
         <main className="bg-muted flex-1 overflow-auto relative flex flex-col">
-          <Toolbar />
+          <Toolbar
+            editor={editor}
+            activeTool={activeTool}
+            onChangeActiveTool={onChangeActiveTool}
+            key={JSON.stringify(editor?.canvas.getActiveObject())}
+          />
           <div
             className="h-[calc(100%-124px)] flex-1 bg-muted"
             ref={containerRef}
           >
             <canvas ref={canvasRef} />
           </div>
-          <Toolbar />
         </main>
       </div>
     </div>
