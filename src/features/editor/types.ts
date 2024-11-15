@@ -73,7 +73,8 @@ export interface Editor {
   changeStrokeWidth: (value: number) => void;
   // fillColor: string;
   getActiveObjectFillColor: () => string;
-  strokeColor: string;
+  // strokeColor: string;
+  getActiveObjectStrokeColor: () => string;
   strokeWidth: number;
   canvas: Canvas;
 }

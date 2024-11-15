@@ -8,6 +8,7 @@ import { FillColorSidebar } from "./fill-color-sidebar";
 import { Navbar } from "./navbar";
 import { ShapeSidebar } from "./shape-sidebar";
 import { Sidebar } from "./sidebar";
+import { StrokeColorSidebar } from "./stroke-color-sidebar";
 import { Toolbar } from "./toolbar";
 
 export const Editor = () => {
@@ -72,6 +73,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <FillColorSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <StrokeColorSidebar
           editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

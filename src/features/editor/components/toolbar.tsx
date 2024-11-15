@@ -35,6 +35,21 @@ export const Toolbar = ({
             />
           </Button>
         </Hint>
+        <Hint label="Stroke Color" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => onChangeActiveTool("stroke-color")}
+            size="icon"
+            variant="ghost"
+            className={cn(activeTool === "stroke-color" && "bg-gray-100")}
+          >
+            <div
+              className="rounded-sm size-4 border-2 bg-white"
+              style={{
+                borderColor: editor?.getActiveObjectStrokeColor(),
+              }}
+            />
+          </Button>
+        </Hint>
       </div>
     </div>
   );
