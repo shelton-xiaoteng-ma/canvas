@@ -61,7 +61,8 @@ export interface Editor {
   changeFillColor: (value: string) => void;
   changeStrokeColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
-  fillColor: string;
+  // fillColor: string;
+  getActiveObjectFillColor: () => string;
   strokeColor: string;
   strokeWidth: number;
   canvas: Canvas;

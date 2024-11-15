@@ -166,7 +166,12 @@ const buildEditor = ({
       addToCanvas(object);
     },
     canvas,
-    fillColor,
+    // fillColor,
+    getActiveObjectFillColor: () => {
+      const selectedObject = canvas.getActiveObjects()[0];
+      if (!selectedObject) return fillColor;
+      return selectedObject.get("fill");
+    },
     strokeColor,
     strokeWidth,
   };

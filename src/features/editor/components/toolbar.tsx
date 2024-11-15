@@ -30,10 +30,7 @@ export const Toolbar = ({
             <div
               className="rounded-sm size-4 border"
               style={{
-                backgroundColor:
-                  typeof editor?.fillColor === "string"
-                    ? editor?.fillColor
-                    : "black",
+                backgroundColor: editor?.getActiveObjectFillColor(),
               }}
             />
           </Button>

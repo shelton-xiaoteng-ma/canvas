@@ -16,7 +16,7 @@ export const FillColorSidebar = ({
   activeTool,
   onChangeActiveTool,
 }: FillColorSidebarProps) => {
-  const value = editor?.fillColor;
+  const value = editor?.getActiveObjectFillColor();
 
   const onChange = (value: string) => {
     editor?.changeFillColor(value);
