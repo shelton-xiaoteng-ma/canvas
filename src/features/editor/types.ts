@@ -74,6 +74,7 @@ export interface Editor {
   changeStrokeColor: (value: string) => void;
   changeStrokeWidth: (value: number) => void;
   changeStrokeDashArray: (value: number[]) => void;
+  changeOpacity: (value: number) => void;
   // fillColor: string;
   getActiveObjectFillColor: () => string;
   // strokeColor: string;
@@ -81,6 +82,7 @@ export interface Editor {
   // strokeWidth: number;
   getActiveObjectStrokeWidth: () => number;
   getActiveObjectStrokeDashArray: () => number[];
+  getActiveOpacity: () => number;
   canvas: Canvas;
   bringForward: () => void;
   sendBackwards: () => void;

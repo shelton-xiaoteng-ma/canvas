@@ -6,6 +6,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ActiveTool, selectionDependentTools } from "../types";
 import { FillColorSidebar } from "./fill-color-sidebar";
 import { Navbar } from "./navbar";
+import { OpacitySidebar } from "./opacity-sidebar";
 import { ShapeSidebar } from "./shape-sidebar";
 import { Sidebar } from "./sidebar";
 import { StrokeColorSidebar } from "./stroke-color-sidebar";
@@ -84,6 +85,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <StrokeWidthSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <OpacitySidebar
           editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
