@@ -53,7 +53,7 @@ export const OpacitySidebar = ({
           />
         </div>
       </ScrollArea>
-      <ToolSidebarClose onClick={() => onChangeActiveTool("stroke-width")} />
+      <ToolSidebarClose onClick={() => onChangeActiveTool("opacity")} />
     </div>
   );
 };
