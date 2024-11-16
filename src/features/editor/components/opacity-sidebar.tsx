@@ -1,6 +1,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Slider } from "@/components/ui/slider";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { ActiveTool, Editor } from "../types";
 import { ToolSidebarClose } from "./tool-sidebar-close";
 import { ToolSidebarHeader } from "./tool-sidebar-header";
@@ -16,9 +17,17 @@ export const OpacitySidebar = ({
   activeTool,
   onChangeActiveTool,
 }: OpacitySidebarProps) => {
+  const activeOpacity = editor?.getActiveOpacity();
+  const [opacity, setOpacity] = useState(editor?.getActiveOpacity());
+
   const onChangeOpacity = (opacity: number) => {
     editor?.changeOpacity(opacity);
+    setOpacity(opacity);
   };
+
+  useEffect(() => {
+    setOpacity(activeOpacity);
+  }, [activeOpacity]);
 
   return (
     <div
@@ -34,7 +43,7 @@ export const OpacitySidebar = ({
       <ScrollArea>
         <div className="p-4 space-y-6 border-b">
           <Slider
-            value={[editor?.getActiveOpacity()]}
+            value={[opacity]}
             onValueChange={(values) => {
               onChangeOpacity(values[0]);
             }}

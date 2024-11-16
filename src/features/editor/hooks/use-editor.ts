@@ -63,7 +63,6 @@ const buildEditor = ({
     getActiveOpacity: (): number => {
       const object = canvas.getActiveObjects()[0];
       if (object) {
-        console.log(object.get("opacity"));
         return object.get("opacity");
       }
       return 1;
