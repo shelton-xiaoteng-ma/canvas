@@ -82,6 +82,8 @@ export interface Editor {
   getActiveObjectStrokeWidth: () => number;
   getActiveObjectStrokeDashArray: () => number[];
   canvas: Canvas;
+  bringForward: () => void;
+  sendBackwards: () => void;
 }
 
 export const FILL_COLOR = "rgba(0,0,0,1)";
