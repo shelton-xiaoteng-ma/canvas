@@ -87,6 +87,7 @@ export interface Editor {
   canvas: Canvas;
   bringForward: () => void;
   sendBackwards: () => void;
+  delete: () => void;
 }
 
 export const FILL_COLOR = "rgba(0,0,0,1)";

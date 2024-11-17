@@ -62,6 +62,13 @@ const buildEditor = ({
   };
 
   return {
+    delete: () => {
+      canvas.getActiveObjects().forEach((object) => {
+        canvas.remove(object);
+      });
+      canvas.discardActiveObject();
+      canvas.renderAll();
+    },
     getActiveOpacity: (): number => {
       const object = canvas.getActiveObjects()[0];
       if (object) {
