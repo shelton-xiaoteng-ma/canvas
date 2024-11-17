@@ -64,6 +64,7 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  addText: () => void;
   addCircle: () => void;
   addSoftRectangle: () => void;
   addRectangle: () => void;
@@ -92,6 +93,8 @@ export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
 export const STROKE_WIDTH = 2;
 export const STROKE_DASH_ARRAY = [];
+export const FONT_FAMILY = "Arial";
+export const FONT_SIZE = 32;
 
 export const CIRCLE_OPTIONS = {
   radius: 200,
@@ -125,4 +128,12 @@ export const DIAMOND_OPTIONS = {
   fill: FILL_COLOR,
   stroke: STROKE_COLOR,
   strokeWidth: STROKE_WIDTH,
+};
+
+export const TEXT_OPTIONS = {
+  left: 200,
+  top: 200,
+  fill: FILL_COLOR,
+  fontSize: FONT_SIZE,
+  fontFamily: FONT_FAMILY,
 };

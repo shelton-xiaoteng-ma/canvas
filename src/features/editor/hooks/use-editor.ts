@@ -7,6 +7,7 @@ import {
   Polygon,
   Rect,
   Shadow,
+  Textbox,
   Triangle,
 } from "fabric";
 import { useCallback, useMemo, useState } from "react";
@@ -20,6 +21,7 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
 import { isTextType } from "../utils";
@@ -121,6 +123,12 @@ const buildEditor = ({
         object.set({ strokeDashArray: value });
       });
       canvas.renderAll();
+    },
+    addText: () => {
+      const object = new Textbox("Hello", { ...TEXT_OPTIONS });
+      // addToCanvas(object);
+      canvas.add(object);
+      // canvas.setActiveObject(object);
     },
     addCircle: () => {
       const object = new Circle({
