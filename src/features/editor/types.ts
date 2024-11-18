@@ -137,4 +137,5 @@ export const TEXT_OPTIONS = {
   fill: FILL_COLOR,
   fontSize: FONT_SIZE,
   fontFamily: FONT_FAMILY,
+  stroke: STROKE_COLOR,
 };

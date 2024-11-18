@@ -133,9 +133,7 @@ const buildEditor = ({
     },
     addText: () => {
       const object = new Textbox("Hello", { ...TEXT_OPTIONS });
-      // addToCanvas(object);
-      canvas.add(object);
-      // canvas.setActiveObject(object);
+      addToCanvas(object);
     },
     addCircle: () => {
       const object = new Circle({
