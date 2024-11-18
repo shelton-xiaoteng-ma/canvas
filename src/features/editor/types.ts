@@ -64,6 +64,7 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  addImage: (url: string) => void;
   addText: () => void;
   addCircle: () => void;
   addSoftRectangle: () => void;
@@ -137,5 +138,9 @@ export const TEXT_OPTIONS = {
   fill: FILL_COLOR,
   fontSize: FONT_SIZE,
   fontFamily: FONT_FAMILY,
+  stroke: STROKE_COLOR,
+};
+
+export const IMAGE_OPTIONS = {
   stroke: STROKE_COLOR,
 };

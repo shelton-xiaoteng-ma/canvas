@@ -3,6 +3,7 @@
 import {
   Canvas,
   Circle,
+  FabricImage,
   FabricObject,
   Polygon,
   Rect,
@@ -17,6 +18,7 @@ import {
   DIAMOND_OPTIONS,
   Editor,
   FILL_COLOR,
+  IMAGE_OPTIONS,
   RECTANGLE_OPTIONS,
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
@@ -62,6 +64,21 @@ const buildEditor = ({
   };
 
   return {
+    addImage: async (url: string) => {
+      const object = await FabricImage.fromURL(
+        url,
+        {
+          crossOrigin: "anonymous",
+        },
+        {
+          ...IMAGE_OPTIONS,
+        }
+      );
+      const workspace = getWorkspace();
+      object.scaleToHeight(workspace?.height || 0);
+      object.scaleToWidth(workspace?.width || 0);
+      addToCanvas(object);
+    },
     delete: () => {
       canvas.getActiveObjects().forEach((object) => {
         canvas.remove(object);

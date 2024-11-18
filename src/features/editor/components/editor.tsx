@@ -5,6 +5,7 @@ import { Canvas } from "fabric";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActiveTool, selectionDependentTools } from "../types";
 import { FillColorSidebar } from "./fill-color-sidebar";
+import { ImageSidebar } from "./image-sidebar";
 import { Navbar } from "./navbar";
 import { OpacitySidebar } from "./opacity-sidebar";
 import { ShapeSidebar } from "./shape-sidebar";
@@ -96,6 +97,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <TextSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <ImageSidebar
           editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
