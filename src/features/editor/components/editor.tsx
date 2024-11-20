@@ -4,6 +4,7 @@ import { useEditor } from "@/features/editor/hooks/use-editor";
 import { Canvas } from "fabric";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ActiveTool, selectionDependentTools } from "../types";
+import { AiSidebar } from "./ai-sidebar";
 import { FillColorSidebar } from "./fill-color-sidebar";
 import { ImageSidebar } from "./image-sidebar";
 import { Navbar } from "./navbar";
@@ -102,6 +103,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <ImageSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <AiSidebar
           editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
