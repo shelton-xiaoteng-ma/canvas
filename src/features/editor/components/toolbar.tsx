@@ -3,7 +3,8 @@
 import { Hint } from "@/components/hint";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ArrowDown, ArrowUp, Trash } from "lucide-react";
+import { ArrowDown, ArrowUp, Copy, Trash } from "lucide-react";
+import { useCallback } from "react";
 import { BsBorderWidth } from "react-icons/bs";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { ActiveTool, Editor } from "../types";
@@ -20,6 +21,11 @@ export const Toolbar = ({
   activeTool,
   onChangeActiveTool,
 }: ToolbarProps) => {
+  const executeDuplicate = useCallback(async () => {
+    await editor?.onCopy();
+    await editor?.onPaste();
+  }, [editor]);
+
   return (
     <div className="shrink-0 h-[56px] border-b bg-white w-full flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
       <div className="h-full flex items-center justify-center">
@@ -94,6 +100,15 @@ export const Toolbar = ({
         <Hint label="Delete" side="bottom" sideOffset={5}>
           <Button onClick={() => editor?.delete()} size="icon" variant="ghost">
             <Trash className="size-4" />
+          </Button>
+        </Hint>
+        <Hint label="Duplicate" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => executeDuplicate()}
+            size="icon"
+            variant="ghost"
+          >
+            <Copy className="size-4" />
           </Button>
         </Hint>
       </div>

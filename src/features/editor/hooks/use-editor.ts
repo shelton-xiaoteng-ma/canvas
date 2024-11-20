@@ -29,6 +29,7 @@ import {
 import { isTextType } from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
+import { useClipboard } from "./use-clipboard";
 
 interface useEditorProps {
   initialCanvas: Canvas;
@@ -36,6 +37,8 @@ interface useEditorProps {
 }
 
 const buildEditor = ({
+  copy,
+  paste,
   canvas,
   fillColor,
   setFillColor,
@@ -64,6 +67,8 @@ const buildEditor = ({
   };
 
   return {
+    onCopy: () => copy(),
+    onPaste: () => paste(),
     addImage: async (url: string) => {
       const object = await FabricImage.fromURL(
         url,
@@ -281,6 +286,8 @@ export const useEditor = ({
   const [strokeDashArray, setStrokeDashArray] =
     useState<number[]>(STROKE_DASH_ARRAY);
 
+  const { copy, paste } = useClipboard({ canvas });
+
   useAutoResize({
     canvas,
     container,
@@ -295,6 +302,8 @@ export const useEditor = ({
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        copy,
+        paste,
         canvas,
         fillColor,
         setFillColor,
@@ -307,7 +316,15 @@ export const useEditor = ({
       });
     }
     return undefined;
-  }, [canvas, fillColor, strokeColor, strokeWidth, strokeDashArray]);
+  }, [
+    copy,
+    paste,
+    canvas,
+    fillColor,
+    strokeColor,
+    strokeWidth,
+    strokeDashArray,
+  ]);
 
   const init = useCallback(
     ({ initialCanvas, initialContainer }: useEditorProps) => {

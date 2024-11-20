@@ -52,6 +52,8 @@ export type ActiveTool =
   | "templates";
 
 export type buildEditorProps = {
+  copy: () => void;
+  paste: () => void;
   canvas: Canvas;
   fillColor: string;
   setFillColor: (value: string) => void;
@@ -64,6 +66,8 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  onCopy: () => void;
+  onPaste: () => void;
   addImage: (url: string) => void;
   addText: () => void;
   addCircle: () => void;
