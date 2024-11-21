@@ -66,6 +66,8 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  enableDrawingMode: () => void;
+  disableDrawingMode: () => void;
   onCopy: () => void;
   onPaste: () => void;
   addImage: (url: string) => void;

@@ -3,6 +3,7 @@
 import {
   ImageIcon,
   LayoutTemplate,
+  Pencil,
   Settings,
   Shapes,
   Sparkles,
@@ -50,6 +51,14 @@ export const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
           isActive={activeTool === "shapes"}
           onClick={() => {
             onChangeActiveTool("shapes");
+          }}
+        />
+        <SidebarItem
+          label="Draw"
+          icon={Pencil}
+          isActive={activeTool === "draw"}
+          onClick={() => {
+            onChangeActiveTool("draw");
           }}
         />
         <SidebarItem

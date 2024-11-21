@@ -5,6 +5,7 @@ import {
   Circle,
   FabricImage,
   FabricObject,
+  PencilBrush,
   Polygon,
   Rect,
   Shadow,
@@ -67,6 +68,23 @@ const buildEditor = ({
   };
 
   return {
+    enableDrawingMode: () => {
+      canvas?.discardActiveObject();
+      canvas.isDrawingMode = true;
+      canvas?.renderAll();
+      canvas.freeDrawingBrush = new PencilBrush(canvas);
+      canvas.freeDrawingBrush.color = strokeColor;
+      canvas.freeDrawingBrush.width = strokeWidth;
+    },
+    disableDrawingMode: () => {
+      canvas.isDrawingMode = false;
+      const objects = canvas.getObjects();
+      objects.forEach((object) => {
+        if (object.type === "path" && object.fill === null) {
+          object.fill = fillColor;
+        }
+      });
+    },
     onCopy: () => copy(),
     onPaste: () => paste(),
     addImage: async (url: string) => {
@@ -137,6 +155,7 @@ const buildEditor = ({
         }
         object.set({ stroke: value });
       });
+      canvas.freeDrawingBrush!.color = value;
       canvas.renderAll();
     },
     changeStrokeWidth: (value: number) => {
@@ -144,6 +163,7 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach((object) => {
         object.set({ strokeWidth: value });
       });
+      canvas.freeDrawingBrush!.width = value;
       canvas.renderAll();
     },
     changeStrokeDashArray: (value: number[]) => {
