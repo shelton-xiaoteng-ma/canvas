@@ -7,6 +7,7 @@ import { ActiveTool, selectionDependentTools } from "../types";
 import { AiSidebar } from "./ai-sidebar";
 import { DrawSidebar } from "./draw-sidebar";
 import { FillColorSidebar } from "./fill-color-sidebar";
+import { Footer } from "./footer";
 import { ImageSidebar } from "./image-sidebar";
 import { Navbar } from "./navbar";
 import { OpacitySidebar } from "./opacity-sidebar";
@@ -135,6 +136,7 @@ export const Editor = () => {
           >
             <canvas ref={canvasRef} />
           </div>
+          <Footer editor={editor} />
         </main>
       </div>
     </div>
