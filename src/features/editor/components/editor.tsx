@@ -10,6 +10,7 @@ import { FillColorSidebar } from "./fill-color-sidebar";
 import { ImageSidebar } from "./image-sidebar";
 import { Navbar } from "./navbar";
 import { OpacitySidebar } from "./opacity-sidebar";
+import { SettingsSidebar } from "./settings-sidebar";
 import { ShapeSidebar } from "./shape-sidebar";
 import { Sidebar } from "./sidebar";
 import { StrokeColorSidebar } from "./stroke-color-sidebar";
@@ -112,6 +113,11 @@ export const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
         />
         <AiSidebar
+          editor={editor!}
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+        />
+        <SettingsSidebar
           editor={editor!}
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}

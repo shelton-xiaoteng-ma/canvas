@@ -1,4 +1,4 @@
-import { Canvas } from "fabric";
+import { Canvas, FabricObject } from "fabric";
 import * as material from "material-colors";
 
 export const selectionDependentTools = [
@@ -52,6 +52,7 @@ export type ActiveTool =
   | "templates";
 
 export type buildEditorProps = {
+  autoZoom: () => void;
   copy: () => void;
   paste: () => void;
   canvas: Canvas;
@@ -66,6 +67,9 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  getWorkspace: () => FabricObject | undefined;
+  changeSize: (value: { width: number; height: number }) => void;
+  changeBackground: (value: string) => void;
   enableDrawingMode: () => void;
   disableDrawingMode: () => void;
   onCopy: () => void;

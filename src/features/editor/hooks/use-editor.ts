@@ -38,6 +38,7 @@ interface useEditorProps {
 }
 
 const buildEditor = ({
+  autoZoom,
   copy,
   paste,
   canvas,
@@ -68,6 +69,17 @@ const buildEditor = ({
   };
 
   return {
+    getWorkspace,
+    changeSize: (value: { width: number; height: number }) => {
+      const workspace = getWorkspace();
+      workspace?.set(value);
+      autoZoom();
+    },
+    changeBackground: (value: string) => {
+      const workspace = getWorkspace();
+      workspace?.set({ fill: value });
+      canvas.renderAll();
+    },
     enableDrawingMode: () => {
       canvas?.discardActiveObject();
       canvas.isDrawingMode = true;
@@ -308,7 +320,7 @@ export const useEditor = ({
 
   const { copy, paste } = useClipboard({ canvas });
 
-  useAutoResize({
+  const { autoZoom } = useAutoResize({
     canvas,
     container,
   });
@@ -322,6 +334,7 @@ export const useEditor = ({
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        autoZoom,
         copy,
         paste,
         canvas,
@@ -337,6 +350,7 @@ export const useEditor = ({
     }
     return undefined;
   }, [
+    autoZoom,
     copy,
     paste,
     canvas,

@@ -24,8 +24,8 @@ export const useAutoResize = ({ canvas, container }: useAutoResizeProps) => {
       .find((object) => "name" in object && object.name === "clip");
     const scale = util.findScaleToFit(
       {
-        width: localWorkspace?.width!,
-        height: localWorkspace?.height!,
+        width: localWorkspace?.width ?? 100,
+        height: localWorkspace?.height ?? 100,
       },
       {
         width: width,
@@ -80,4 +80,6 @@ export const useAutoResize = ({ canvas, container }: useAutoResizeProps) => {
       }
     };
   }, [canvas, container, autoZoom]);
+
+  return { autoZoom };
 };
