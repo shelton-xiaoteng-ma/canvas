@@ -18,16 +18,26 @@ export const useHistory = ({ canvas }: UseHistoryProps) => {
     return historyIndex < canvasHistory.current.length - 1;
   }, [historyIndex]);
 
-  const save = useCallback(() => {
-    if (!canvas) return;
-    const currentState = canvas!.toObject(["name"]);
-    const json = JSON.stringify(currentState);
-    if (!skipSave.current) {
-      canvasHistory.current.push(json);
-      setHistoryIndex(canvasHistory.current.length - 1);
-    }
-    //TODO: Save callback
-  }, [canvas, setHistoryIndex]);
+  const save = useCallback(
+    (skip: boolean = false) => {
+      // Determine if we should skip; default to false if not a boolean
+      // Why not a boolean? in canvas.on, save method may accept an FabricObject as a parameter, should ignore it
+      // src/features/editor/hooks/use-canvas-events.ts
+      // canvas.on("object:added", save);
+      if (typeof skip !== "boolean") {
+        skip = false;
+      }
+      if (!canvas) return;
+      const currentState = canvas!.toObject(["name"]);
+      const json = JSON.stringify(currentState);
+      if (!skip && !skipSave.current) {
+        canvasHistory.current.push(json);
+        setHistoryIndex(canvasHistory.current.length - 1);
+      }
+      //TODO: Save callback
+    },
+    [canvas, setHistoryIndex]
+  );
 
   const undo = useCallback(async () => {
     if (canUndo()) {

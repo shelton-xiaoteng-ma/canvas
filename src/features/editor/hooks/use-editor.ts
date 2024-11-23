@@ -32,6 +32,7 @@ import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
+import { useHotkeys } from "./use-hotkeys";
 
 interface useEditorProps {
   initialCanvas: Canvas;
@@ -364,6 +365,8 @@ export const useEditor = ({
     clearSelectionCallback,
     save,
   });
+
+  useHotkeys({ undo, redo, copy, paste, save, canvas });
 
   const editor = useMemo(() => {
     if (canvas) {
