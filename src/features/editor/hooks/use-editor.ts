@@ -31,6 +31,7 @@ import { isTextType } from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
+import { useHistory } from "./use-history";
 
 interface useEditorProps {
   initialCanvas: Canvas;
@@ -38,6 +39,11 @@ interface useEditorProps {
 }
 
 const buildEditor = ({
+  canUndo,
+  canRedo,
+  redo,
+  undo,
+  save,
   autoZoom,
   copy,
   paste,
@@ -69,6 +75,11 @@ const buildEditor = ({
   };
 
   return {
+    canUndo,
+    canRedo,
+    redo,
+    undo,
+    save,
     getWorkspace,
     autoZoom,
     zoomIn: () => {
@@ -87,11 +98,14 @@ const buildEditor = ({
       const workspace = getWorkspace();
       workspace?.set(value);
       autoZoom();
+      // changeSize changeBackground can't trigger useCanvasEvents
+      save();
     },
     changeBackground: (value: string) => {
       const workspace = getWorkspace();
       workspace?.set({ fill: value });
       canvas.renderAll();
+      save();
     },
     enableDrawingMode: () => {
       canvas?.discardActiveObject();
@@ -189,7 +203,9 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach((object) => {
         object.set({ strokeWidth: value });
       });
-      canvas.freeDrawingBrush!.width = value;
+      if (canvas.freeDrawingBrush) {
+        canvas.freeDrawingBrush.width = value;
+      }
       canvas.renderAll();
     },
     changeStrokeDashArray: (value: number[]) => {
@@ -332,6 +348,9 @@ export const useEditor = ({
   const [strokeDashArray, setStrokeDashArray] =
     useState<number[]>(STROKE_DASH_ARRAY);
 
+  const { save, redo, undo, canUndo, canRedo, setHistoryIndex, canvasHistory } =
+    useHistory({ canvas });
+
   const { copy, paste } = useClipboard({ canvas });
 
   const { autoZoom } = useAutoResize({
@@ -343,11 +362,17 @@ export const useEditor = ({
     canvas,
     setSelectedObjects,
     clearSelectionCallback,
+    save,
   });
 
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
+        canUndo,
+        canRedo,
+        redo,
+        undo,
+        save,
         autoZoom,
         copy,
         paste,
@@ -364,6 +389,11 @@ export const useEditor = ({
     }
     return undefined;
   }, [
+    canUndo,
+    canRedo,
+    redo,
+    undo,
+    save,
     autoZoom,
     copy,
     paste,
@@ -391,6 +421,7 @@ export const useEditor = ({
         height: 600,
         name: "clip",
         fill: "white",
+        stroke: "#FFF",
         selectable: false,
         hasControls: false,
         shadow: new Shadow({ color: "rgba(0,0,0,0.8)", blur: 5 }),
@@ -407,8 +438,12 @@ export const useEditor = ({
 
       setCanvas(initialCanvas);
       setContainer(initialContainer);
+      canvasHistory.current = [
+        JSON.stringify(initialCanvas.toObject(["name"])),
+      ];
+      setHistoryIndex(0);
     },
-    []
+    [setHistoryIndex, canvasHistory]
   );
   return { init, editor };
 };

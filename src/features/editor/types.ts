@@ -52,6 +52,11 @@ export type ActiveTool =
   | "templates";
 
 export type buildEditorProps = {
+  canUndo: () => boolean;
+  canRedo: () => boolean;
+  redo: () => void;
+  undo: () => void;
+  save: (skip?: boolean) => void;
   autoZoom: () => void;
   copy: () => void;
   paste: () => void;
@@ -67,6 +72,11 @@ export type buildEditorProps = {
 };
 
 export interface Editor {
+  canUndo: () => boolean;
+  canRedo: () => boolean;
+  redo: () => void;
+  undo: () => void;
+  save: (skip?: boolean) => void;
   autoZoom: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
