@@ -27,7 +27,7 @@ import {
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
-import { isTextType } from "../utils";
+import { downloadFile, isTextType, transformText } from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
@@ -58,6 +58,70 @@ const buildEditor = ({
   strokeDashArray,
   setStrokeDashArray,
 }: buildEditorProps): Editor => {
+  const generateSaveOptions = () => {
+    const { width, height, left, top } = getWorkspace() as Rect;
+    const multiplier = 1;
+
+    return {
+      name: "Image",
+      format: "png",
+      quality: 1,
+      width,
+      height,
+      left,
+      top,
+      multiplier,
+    };
+  };
+
+  const savePng = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+
+    const dataUrl = canvas.toDataURL(options);
+    downloadFile({ file: dataUrl, type: "png" });
+    autoZoom();
+  };
+
+  const saveSvg = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+
+    const dataUrl = canvas.toDataURL(options);
+    downloadFile({ file: dataUrl, type: "svg" });
+    autoZoom();
+  };
+
+  const saveJpg = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+
+    const dataUrl = canvas.toDataURL(options);
+    downloadFile({ file: dataUrl, type: "jpg" });
+    autoZoom();
+  };
+
+  const saveJson = async () => {
+    const dataUrl = canvas.toObject(["name"]);
+
+    await transformText(dataUrl.objects);
+
+    const fileString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(dataUrl, null, "\t")
+    )}`;
+
+    downloadFile({ file: fileString, type: "json" });
+  };
+
+  const loadJson = async (json: string) => {
+    const data = JSON.parse(json);
+    await canvas.loadFromJSON(data);
+    autoZoom();
+  };
+
   const getWorkspace = () => {
     return canvas
       .getObjects()
@@ -76,6 +140,11 @@ const buildEditor = ({
   };
 
   return {
+    saveJpg,
+    savePng,
+    saveSvg,
+    saveJson,
+    loadJson,
     canUndo,
     canRedo,
     redo,

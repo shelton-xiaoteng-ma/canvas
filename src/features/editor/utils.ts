@@ -1,4 +1,31 @@
 import { RGBColor } from "react-color";
+import { v4 as uuid } from "uuid";
+
+export const transformText = (objects: any) => {
+  if (!objects) return;
+  objects.forEach((item: any) => {
+    if (item.objects) {
+      transformText(item.objects);
+    } else {
+      item.type === "text" && item.type === "textbox";
+    }
+  });
+};
+
+export const downloadFile = ({
+  file,
+  type,
+}: {
+  file: string;
+  type: string;
+}) => {
+  const anchorElement = document.createElement("a");
+  anchorElement.href = file;
+  anchorElement.download = `${uuid()}.${type}`;
+  document.body.appendChild(anchorElement);
+  anchorElement.click();
+  anchorElement.remove();
+};
 
 export const isTextType = (type: string | undefined) => {
   return type === "text" || type === "i-text" || type === "textbox";
