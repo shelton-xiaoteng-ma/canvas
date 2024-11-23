@@ -33,6 +33,7 @@ import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
 import { useHotkeys } from "./use-hotkeys";
+import { useWindowEvents } from "./use-window-events";
 
 interface useEditorProps {
   initialCanvas: Canvas;
@@ -427,6 +428,8 @@ export const useEditor = ({
     canvas,
     container,
   });
+
+  useWindowEvents();
 
   useCanvasEvents({
     canvas,
