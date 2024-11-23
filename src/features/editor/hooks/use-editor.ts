@@ -166,6 +166,7 @@ const buildEditor = ({
     changeFillColor: (value: string) => {
       setFillColor(value);
       canvas.getActiveObjects().forEach((object) => {
+        if (object.type === "path") return;
         object.set({ fill: value });
       });
       canvas.renderAll();
