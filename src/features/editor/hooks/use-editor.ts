@@ -191,7 +191,7 @@ const buildEditor = ({
       const objects = canvas.getObjects();
       objects.forEach((object) => {
         if (object.type === "path" && object.fill === null) {
-          object.fill = FILL_COLOR;
+          object.fill = "";
         }
       });
     },
