@@ -6,10 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:generate": "npx drizzle-kit generate",
+    "db:migrate": "npx drizzel-kit migrate",
+    "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
+    "@auth/drizzle-adapter": "^1.7.4",
     "@hono/zod-validator": "^0.4.1",
+    "@neondatabase/serverless": "^0.10.3",
     "@radix-ui/react-dropdown-menu": "^2.1.2",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-scroll-area": "^1.2.1",
@@ -21,12 +26,15 @@
     "@uploadthing/react": "^7.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.36.4",
     "fabric": "^6.4.3",
     "hono": "^4.6.10",
     "lucide-react": "^0.454.0",
     "material-colors": "^1.2.6",
     "next": "15.0.2",
     "next-auth": "5.0.0-beta.25",
+    "pg": "^8.13.1",
     "react": "18.2.0",
     "react-color": "^2.19.3",
     "react-dom": "18.2.0",
@@ -44,13 +52,16 @@
   "devDependencies": {
     "@types/material-colors": "^1.2.3",
     "@types/node": "^20",
+    "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.28.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.2",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }
