@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "db:generate": "npx drizzle-kit generate",
-    "db:migrate": "npx drizzel-kit migrate",
+    "db:migrate": "npx drizzle-kit migrate",
     "db:studio": "npx drizzle-kit studio"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "material-colors": "^1.2.6",
     "next": "15.0.2",
     "next-auth": "5.0.0-beta.25",
+    "next-themes": "^0.4.3",
     "pg": "^8.13.1",
     "react": "18.2.0",
     "react-color": "^2.19.3",
@@ -41,6 +42,7 @@
     "react-icons": "^5.3.0",
     "react-use": "^17.5.1",
     "replicate": "^1.0.1",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "unsplash-js": "^7.0.19",
@@ -50,12 +52,14 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/material-colors": "^1.2.3",
     "@types/node": "^20",
     "@types/pg": "^8.11.10",
     "@types/react": "^18",
     "@types/react-color": "^3.0.12",
     "@types/react-dom": "^18",
+    "bcryptjs": "^2.4.3",
     "drizzle-kit": "^0.28.1",
     "eslint": "^8",
     "eslint-config-next": "15.0.2",
