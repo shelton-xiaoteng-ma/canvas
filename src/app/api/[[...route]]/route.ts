@@ -1,7 +1,8 @@
+import { AuthConfig, initAuthConfig } from "@hono/auth-js";
 import { Hono } from "hono";
-
 import { handle } from "hono/vercel";
 
+import authConfig from "@/auth.config";
 import ai from "./ai";
 import images from "./images";
 import users from "./users";
@@ -9,8 +10,19 @@ import users from "./users";
 // Revert to "edge" if planning on planning on the edge
 export const runtime = "nodejs";
 
+function getAuthConfig(): AuthConfig {
+  const config = {
+    ...authConfig,
+    secret: process.env.AUTH_SECRET,
+  } as AuthConfig;
+  return config;
+}
+
 const app = new Hono().basePath("/api");
 
+app.use("*", initAuthConfig(getAuthConfig));
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app
   .route("/images", images)
   .route("/ai", ai)
