@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { UserButton } from "@/features/auth/components/user-button";
 import { cn } from "@/lib/utils";
 import {
   ChevronDown,
@@ -169,7 +170,7 @@ export const Navbar = ({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          {/* TODO: add user-button */}
+          <UserButton />
         </div>
       </div>
     </nav>
