@@ -5,6 +5,7 @@ import { handle } from "hono/vercel";
 import authConfig from "@/auth.config";
 import ai from "./ai";
 import images from "./images";
+import projects from "./projects";
 import users from "./users";
 
 // Revert to "edge" if planning on planning on the edge
@@ -24,6 +25,7 @@ app.use("*", initAuthConfig(getAuthConfig));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const routes = app
+  .route("/projects", projects)
   .route("/images", images)
   .route("/ai", ai)
   .route("/users", users);

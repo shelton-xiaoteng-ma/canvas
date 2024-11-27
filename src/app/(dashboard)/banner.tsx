@@ -1,7 +1,29 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { useCreateProject } from "@/features/projects/api/use-create-project";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export const Banner = () => {
+  const router = useRouter();
+  const mutation = useCreateProject();
+
+  const createProject = () => {
+    mutation.mutate(
+      {
+        name: "Untitled project",
+        json: "",
+        width: 900,
+        height: 1200,
+      },
+      {
+        onSuccess: ({ data }) => {
+          router.push(`/editor/${data.id}`);
+        },
+      }
+    );
+  };
   return (
     <div
       className="
@@ -28,7 +50,12 @@ export const Banner = () => {
           Turn inspiration into design in no time. Simply upload an image and
           let AI do the rest.
         </p>
-        <Button variant="secondary" className="w-[160px]">
+        <Button
+          disabled={mutation.isPending}
+          variant="secondary"
+          className="w-[160px]"
+          onClick={createProject}
+        >
           Start creating
           <ArrowRight className="size-4 ml-2" />
         </Button>
