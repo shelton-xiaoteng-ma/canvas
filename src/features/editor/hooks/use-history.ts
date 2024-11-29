@@ -34,6 +34,12 @@ export const useHistory = ({ canvas, saveCallback }: UseHistoryProps) => {
         skip = false;
       }
       if (!canvas) return;
+      const objects = canvas.getObjects();
+      objects.forEach((object) => {
+        if (object.type === "path" && object.fill === null) {
+          object.fill = "";
+        }
+      });
       const currentState = canvas!.toObject(JSON_KEYS);
       const json = JSON.stringify(currentState);
       if (!skip && !skipSave.current) {
