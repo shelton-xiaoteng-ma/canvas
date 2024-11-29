@@ -172,3 +172,5 @@ export const TEXT_OPTIONS = {
 export const IMAGE_OPTIONS = {
   stroke: STROKE_COLOR,
 };
+
+export const JSON_KEYS = ["name", "selectable"];

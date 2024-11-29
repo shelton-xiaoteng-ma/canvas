@@ -9,30 +9,47 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { UserButton } from "@/features/auth/components/user-button";
 import { cn } from "@/lib/utils";
+import { useMutationState } from "@tanstack/react-query";
 import {
   ChevronDown,
   Download,
+  Loader,
   MousePointerClick,
   Redo2,
   Undo2,
 } from "lucide-react";
-import { BsCloudCheck } from "react-icons/bs";
+import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 import { CiFileOn } from "react-icons/ci";
 import { useFilePicker } from "use-file-picker";
 import { ActiveTool, Editor } from "../types";
 import { Logo } from "./logo";
 
 interface NavbarProps {
+  id: string;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
   editor: Editor | undefined;
 }
 
 export const Navbar = ({
+  id,
   activeTool,
   onChangeActiveTool,
   editor,
 }: NavbarProps) => {
+  const data = useMutationState({
+    filters: {
+      mutationKey: ["project", { id }],
+      exact: true,
+    },
+    select: (mutation) => mutation.state.status,
+  });
+
+  const currentStatus = data[data.length - 1];
+
+  const isError = currentStatus === "error";
+  const isPending = currentStatus === "pending";
+
   const { openFilePicker } = useFilePicker({
     accept: ".json",
     onFilesSuccessfullySelected: ({ plainFiles }: any) => {
@@ -108,10 +125,24 @@ export const Navbar = ({
           </Button>
         </Hint>
         <Separator orientation="vertical" className="mx-2" />
-        <div className="flex items-center gap-x-2">
-          <BsCloudCheck className="size-[20px] text-muted-foreground" />
-          <div className="text-sm text-muted-foreground">Saved</div>
-        </div>
+        {!isError && !isPending && (
+          <div className="flex items-center gap-x-2">
+            <BsCloudCheck className="size-[20px] text-muted-foreground" />
+            <div className="text-sm text-muted-foreground">Saved</div>
+          </div>
+        )}
+        {isError && !isPending && (
+          <div className="flex items-center gap-x-2">
+            <BsCloudSlash className="size-[20px] text-muted-foreground" />
+            <div className="text-sm text-muted-foreground">Failed to save</div>
+          </div>
+        )}
+        {isPending && (
+          <div className="flex items-center gap-x-2">
+            <Loader className="size-[20px] text-muted-foreground animate-spin" />
+            <div className="text-sm text-muted-foreground">Saving</div>
+          </div>
+        )}
         <div className="ml-auto flex items-center gap-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

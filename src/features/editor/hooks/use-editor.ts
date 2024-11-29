@@ -12,7 +12,7 @@ import {
   Textbox,
   Triangle,
 } from "fabric";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   buildEditorProps,
   CIRCLE_OPTIONS,
@@ -20,6 +20,7 @@ import {
   Editor,
   FILL_COLOR,
   IMAGE_OPTIONS,
+  JSON_KEYS,
   RECTANGLE_OPTIONS,
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
@@ -33,6 +34,7 @@ import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
 import { useHotkeys } from "./use-hotkeys";
+import { useLoadState } from "./use-load-state";
 import { useWindowEvents } from "./use-window-events";
 
 interface useEditorProps {
@@ -406,10 +408,26 @@ const buildEditor = ({
 };
 
 export const useEditor = ({
+  defaultState,
+  defaultWidth,
+  defaultHeight,
   clearSelectionCallback,
+  saveCallback,
 }: {
-  clearSelectionCallback: () => void;
+  defaultState?: string;
+  defaultWidth?: number;
+  defaultHeight?: number;
+  clearSelectionCallback?: () => void;
+  saveCallback?: (values: {
+    json: string;
+    width: number;
+    height: number;
+  }) => void;
 }) => {
+  const initialState = useRef(defaultState);
+  const initialWidth = useRef(defaultWidth);
+  const initialHeight = useRef(defaultHeight);
+
   const [canvas, setCanvas] = useState<Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<FabricObject[]>([]);
@@ -420,7 +438,7 @@ export const useEditor = ({
     useState<number[]>(STROKE_DASH_ARRAY);
 
   const { save, redo, undo, canUndo, canRedo, setHistoryIndex, canvasHistory } =
-    useHistory({ canvas });
+    useHistory({ canvas, saveCallback });
 
   const { copy, paste } = useClipboard({ canvas });
 
@@ -439,6 +457,14 @@ export const useEditor = ({
   });
 
   useHotkeys({ undo, redo, copy, paste, save, canvas });
+
+  useLoadState({
+    autoZoom,
+    canvas,
+    setHistoryIndex,
+    canvasHistory,
+    initialState,
+  });
 
   const editor = useMemo(() => {
     if (canvas) {
@@ -492,8 +518,8 @@ export const useEditor = ({
       });
 
       const initialWorkspace = new Rect({
-        width: 600,
-        height: 600,
+        width: initialWidth.current,
+        height: initialHeight.current,
         name: "clip",
         fill: "white",
         stroke: "#FFF",
@@ -514,7 +540,7 @@ export const useEditor = ({
       setCanvas(initialCanvas);
       setContainer(initialContainer);
       canvasHistory.current = [
-        JSON.stringify(initialCanvas.toObject(["name"])),
+        JSON.stringify(initialCanvas.toObject(JSON_KEYS)),
       ];
       setHistoryIndex(0);
     },
