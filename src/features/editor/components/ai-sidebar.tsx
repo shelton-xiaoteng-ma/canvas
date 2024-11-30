@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { useGenerateImage } from "@/features/ai/api/use-generate-image";
+import { usePaywall } from "@/features/subscriptions/hooks/use-paywall";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { ActiveTool, Editor } from "../types";
@@ -20,13 +21,17 @@ export const AiSidebar = ({
   onChangeActiveTool,
 }: AiSidebarProps) => {
   const mutation = useGenerateImage();
+  const paywall = usePaywall();
 
   const [value, setValue] = useState("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // TODO: Block with paywall
+    if (paywall.shouldBlock) {
+      paywall.triggerPaywall();
+      return;
+    }
 
     // mutation.mutateAsync({ prompt: "" }).then(({ data }) => {
     //   editor?.addImage(data);

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { Modals } from "@/components/modals";
 import { Porviders } from "@/components/providers";
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
@@ -36,6 +37,7 @@ export default async function RootLayout({
         >
           <Porviders>
             <Toaster />
+            <Modals />
             {children}
           </Porviders>
         </body>
