@@ -98,7 +98,7 @@ const app = new Hono()
         signature,
         process.env.STRIPE_WEBHOOK_SECRET!
       );
-    } catch (error) {
+    } catch {
       return c.json({ error: "Invalid signature" }, 400);
     }
 

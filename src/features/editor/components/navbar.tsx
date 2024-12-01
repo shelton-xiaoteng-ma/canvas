@@ -52,7 +52,7 @@ export const Navbar = ({
 
   const { openFilePicker } = useFilePicker({
     accept: ".json",
-    onFilesSuccessfullySelected: ({ plainFiles }: any) => {
+    onFilesSuccessfullySelected: ({ plainFiles }: { plainFiles: Blob[] }) => {
       if (plainFiles && plainFiles.length > 0) {
         const file = plainFiles[0];
         const reader = new FileReader();

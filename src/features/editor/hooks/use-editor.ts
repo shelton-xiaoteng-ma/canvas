@@ -5,6 +5,7 @@ import {
   Circle,
   FabricImage,
   FabricObject,
+  ImageFormat,
   PencilBrush,
   Polygon,
   Rect,
@@ -67,7 +68,7 @@ const buildEditor = ({
 
     return {
       name: "Image",
-      format: "png",
+      format: "png" as ImageFormat,
       quality: 1,
       width,
       height,
@@ -108,7 +109,7 @@ const buildEditor = ({
   };
 
   const saveJson = async () => {
-    const dataUrl = canvas.toObject(["name"]);
+    const dataUrl = canvas.toObject(JSON_KEYS);
 
     await transformText(dataUrl.objects);
 
@@ -430,7 +431,7 @@ export const useEditor = ({
 
   const [canvas, setCanvas] = useState<Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const [selectedObjects, setSelectedObjects] = useState<FabricObject[]>([]);
+  // const [selectedObjects, setSelectedObjects] = useState<FabricObject[]>([]);
   const [fillColor, setFillColor] = useState(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState(STROKE_WIDTH);
@@ -451,7 +452,7 @@ export const useEditor = ({
 
   useCanvasEvents({
     canvas,
-    setSelectedObjects,
+    // setSelectedObjects,
     clearSelectionCallback,
     save,
   });
