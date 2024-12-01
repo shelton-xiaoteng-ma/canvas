@@ -16,7 +16,7 @@ import { useCheckout } from "../api/use-checkout";
 import { useSubscriptionModal } from "../store/use-subscription-modal";
 
 export const SubscriptionModal = () => {
-  const { isOpen, onClose, onOpen } = useSubscriptionModal();
+  const { isOpen, onClose } = useSubscriptionModal();
 
   const mutation = useCheckout();
 
