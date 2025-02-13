@@ -13,12 +13,28 @@ import { Separator } from "@/components/ui/separator";
 import { CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import { useCheckout } from "../api/use-checkout";
+import { useIssueModal } from "../store/use-issue-modal";
 import { useSubscriptionModal } from "../store/use-subscription-modal";
 
 export const SubscriptionModal = () => {
   const { isOpen, onClose } = useSubscriptionModal();
+  const { open: openIssueModal } = useIssueModal();
+
+  const isStripeEnabled = process.env.STRIPE_ENABLED === "true";
 
   const mutation = useCheckout();
+
+  // Function to handle the subscription process
+  // If Stripe is enabled, it creates a checkout session
+  // Otherwise, it opens an issue modal
+  const onClick = async () => {
+    // If the user is already on a pro plan, redirect them to the subscription management page
+    if (!isStripeEnabled) {
+      openIssueModal();
+    } else {
+      mutation.mutate();
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -56,7 +72,7 @@ export const SubscriptionModal = () => {
         <DialogFooter className="pt-2 mt-4 gap-y-2">
           <Button
             className="w-full"
-            onClick={() => mutation.mutate()}
+            onClick={onClick}
             disabled={mutation.isPending}
           >
             Upgrade
